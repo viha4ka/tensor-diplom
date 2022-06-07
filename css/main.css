@@ -86,6 +86,7 @@ body{
     flex-flow: column nowrap;
     flex-grow: 1;
     background-color: #262626;
+    position: relative;
 }
 
 .playlists{
@@ -169,6 +170,53 @@ body{
     padding-top: 16px;
 }
 
+/* modal */
+
+.modal-background{
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    background-color: rgba(24, 24, 24, 0.61);
+    display: none;
+}
+
+.modal-background_active{
+    display: block;
+}
+
+.container_modal{
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal{
+    width: 90%;
+    height: 90%;
+    background-color: #181818;
+    border-radius: 8px;
+    padding: 16px;
+}
+
+.modal__header{
+    height: 32px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal__close{
+    font-size: 24px;
+}
+
+.modal__title{
+    font-size: 24px;
+}
+
 /* player */
 
 .player{
@@ -209,24 +257,79 @@ body{
     color: #c9c9c9;
 }
 
+.player__main{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 16px;
+}
+
 .player__btns{
     display: flex;
     justify-self: center;
     align-items: center;
 }
 
+.player__indicator-info{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 8px;
+    width: 100%;
+}
+
+.player__start-time, .player__end-time{
+    font-size: 12px;
+    min-width: 36px;
+}
+
+.player__end-time{
+    text-align: end;
+}
+
+.player__indicator-wrap, .volume__indicator-wrap{
+    position: relative;
+    width: 100%;
+    height: 4px;
+    background-color: rgba(255, 255, 255, 0.55);
+    margin: 0 8px;
+    border-radius: 4px;
+}
+
+.player__indicator, .volume__indicator{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 4px;
+    width: 55%;
+    border-radius: 4px;
+    background-color: #00d95f;
+}
+
 .fa-solid{
     cursor: pointer;
 }
 
-.fa-play{
+.play, .pause{
     margin: 0 12px;
     font-size: 24px;
+    display: none !important;
+}
+
+.play_active{
+    display: block !important;
+}
+
+.pause_active{
+    display: block !important;
 }
 
 .volume{
     display: flex;
     align-items: center;
+    padding: 0 32px;
 }
 
 /* footer */

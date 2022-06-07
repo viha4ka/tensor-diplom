@@ -41,6 +41,26 @@
                 </div>
             </div>
         </div>
+        <div class="modal-background modal-background_playlist">
+            <div class="container container_modal">
+                <div class="modal">
+                    <div class="modal__header">
+                        <span class="modal__title">Albom</span>
+                        <i class="fa-solid fa-xmark modal__close"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-background modal-background_create-playlist">
+            <div class="container container_modal">
+                <div class="modal">
+                    <div class="modal__header">
+                        <span class="modal__title">Create Playlist</span>
+                        <i class="fa-solid fa-xmark modal__close"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
     <div class="player">
         <div class="container container_player">
@@ -51,13 +71,27 @@
                     <span class="track-info__author">Lil cristall</span>
                 </div>
             </div>
-            <div class="player__btns">
-                <i class="fa-solid fa-backward"></i>
-                <i class="fa-solid fa-play"></i>
-                <i class="fa-solid fa-forward"></i>
+            <audio class="audio" src="./audio/1.mp3"></audio>
+            <div class="player__main">
+                <div class="player__btns">
+                    <i class="fa-solid fa-backward"></i>
+                    <i class="fa-solid fa-play play play_active"></i>
+                    <i class="fa-solid fa-pause pause"></i>
+                    <i class="fa-solid fa-forward"></i>
+                </div>
+                <div class="player__indicator-info">
+                    <span class="player__start-time">0:00</span>
+                    <div class="player__indicator-wrap">
+                        <div class="player__indicator"></div>
+                    </div>
+                    <span class="player__end-time">3:24</span>
+                </div>
             </div>
             <div class="volume">
                 <i class="fa-solid fa-volume-high"></i>
+                <div class="volume__indicator-wrap">
+                    <div class="volume__indicator"></div>
+                </div>
             </div>
         </div>
     </div>
