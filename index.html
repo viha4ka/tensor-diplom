@@ -41,26 +41,6 @@
                 </div>
             </div>
         </div>
-        <div class="modal-background modal-background_playlist">
-            <div class="container container_modal">
-                <div class="modal">
-                    <div class="modal__header">
-                        <span class="modal__title">Albom</span>
-                        <i class="fa-solid fa-xmark modal__close"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal-background modal-background_create-playlist">
-            <div class="container container_modal">
-                <div class="modal">
-                    <div class="modal__header">
-                        <span class="modal__title">Create Playlist</span>
-                        <i class="fa-solid fa-xmark modal__close"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
     <div class="player">
         <div class="container container_player">
@@ -74,10 +54,10 @@
             <audio class="audio" src="./audio/1.mp3"></audio>
             <div class="player__main">
                 <div class="player__btns">
-                    <i class="fa-solid fa-backward"></i>
-                    <i class="fa-solid fa-play play play_active"></i>
-                    <i class="fa-solid fa-pause pause"></i>
-                    <i class="fa-solid fa-forward"></i>
+                    <img src="./images/svg/Skip-prev.svg" alt="prev" class="player__skip">
+                    <img src="./images/svg/Play.svg" alt="play" class="play play_active">
+                    <img src="./images/svg/Pause.svg" alt="pause" class="pause">
+                    <img src="./images/svg/Skip-next.svg" alt="next" class="player__skip">
                 </div>
                 <div class="player__indicator-info">
                     <span class="player__start-time">0:00</span>
@@ -88,7 +68,8 @@
                 </div>
             </div>
             <div class="volume">
-                <i class="fa-solid fa-volume-high"></i>
+                <img src="./images/svg/Volume-down.svg" alt="volume-off" class="volume-off volume-off_active">
+                <img src="./images/svg/Volume-off.svg" alt="volume-on" class="volume-on">
                 <div class="volume__indicator-wrap">
                     <div class="volume__indicator"></div>
                 </div>
@@ -100,7 +81,28 @@
             <span class="footer__text">© 2022 Разработалa с 💚 Буторина Вика</span>
         </div>
     </footer>
+    <div class="modal-background modal-background_playlist">
+        <div class="container container_modal">
+            <div class="modal">
+                <div class="modal__header">
+                    <span class="modal__title">Albom</span>
+                    <img src="./images/svg/Cross.svg" alt="close" class="modal__close">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-background modal-background_create-playlist">
+        <div class="container container_modal">
+            <div class="modal">
+                <div class="modal__header">
+                    <span class="modal__title">Create Playlist</span>
+                    <img src="./images/svg/Cross.svg" alt="close" class="modal__close">
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="./js/main.js"></script>
-    <script src="https://kit.fontawesome.com/f0646a96d2.js" crossorigin="anonymous"></script>
+    <script type="module" src="./js/api.js"></script>
+    <script type="module" src="./js/drawCard.js"></script>
 </body>
 </html>

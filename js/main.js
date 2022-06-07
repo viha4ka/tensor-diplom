@@ -11,8 +11,14 @@ const playerEndTime = document.querySelector(".player__end-time")
 const playerIndicator = document.querySelector(".player__indicator")
 const playerIndicatorWrap = document.querySelector(".player__indicator-wrap")
 
+const volumeIndicatorWrap = document.querySelector(".volume__indicator-wrap")
+const volumeIndicator = document.querySelector(".volume__indicator")
+
 const btnPlay = document.querySelector(".play")
 const btnPause = document.querySelector(".pause")
+console.log(btnPlay)
+const btnVolumeOff = document.querySelector(".volume-off")
+const btnVolumeOn = document.querySelector(".volume-on")
 
 
 btnOpenPlaylist.addEventListener("click", ()=>{
@@ -63,6 +69,33 @@ audio.addEventListener("timeupdate", updateProgress)
 
 function setProgress(e) {
     const width = this.clientWidth
+    const clickX = e.offsetX
+    const duration = audio.duration
+
+    audio.currentTime = (clickX / width) * duration
 }
 
 playerIndicatorWrap.addEventListener("click", setProgress)
+
+btnVolumeOff.addEventListener("click", () => {
+    btnVolumeOff.classList.toggle("volume-off_active")
+    btnVolumeOn.classList.toggle("volume-on_active")
+    localStorage.setItem("volume", audio.volume)
+    audio.volume = 0
+})
+
+btnVolumeOn.addEventListener("click", () => {
+    btnVolumeOff.classList.toggle("volume-off_active")
+    btnVolumeOn.classList.toggle("volume-on_active")
+    audio.volume = localStorage.getItem("volume")
+    localStorage.removeItem("volume")
+})
+
+function setVolume(e){
+    const width = this.clientWidth
+    const clickX = e.offsetX
+    volumeIndicator.style.width = `${(clickX / width) * 100}%`
+    audio.volume = (clickX / width)
+}
+
+volumeIndicatorWrap.addEventListener("click", setVolume)

@@ -28,6 +28,8 @@ body{
 /* header */
 
 .header{
+    position: fixed;
+    top: 0;
     width: 100%;
     height: 64px;
     background-color: #181818;
@@ -80,13 +82,15 @@ body{
 
 .main{
     width: 100%;
-    padding: 16px 0;
+    padding: 16px 0 16px 16px;
+    margin: 64px 0 128px 0;
     display: flex;
     align-items: center;
     flex-flow: column nowrap;
     flex-grow: 1;
     background-color: #262626;
     position: relative;
+    overflow-y: scroll;
 }
 
 .playlists{
@@ -108,12 +112,20 @@ body{
     height: 350px;
     border-radius: 5px;
     transition: transform 0.8s;
-    transform-style: preserve-3d;
 }
 
 .playlist:hover{
-    transform: rotateY(180deg);
+    transform: translateY(8px);
 }
+
+.playlist:hover .playlist-front{
+    opacity: 0;
+}
+
+.playlist:hover .playlist-back{
+    opacity: 1;
+}
+
 
 .playlist-front, .playlist-back{
     width: 100%;
@@ -121,6 +133,7 @@ body{
     position: absolute;
     -webkit-backface-visibility: hidden; /* Safari */
     backface-visibility: hidden;
+    transition: opacity 0.8s ease;
 }
 
 .playlist-front{
@@ -131,12 +144,14 @@ body{
 }
 
 .playlist-back{
-    position: relative;
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
     display: flex;
     flex-flow: column nowrap;
     padding: 16px;
     background-color: #181818;
-    transform: rotateY(180deg);
 }
 
 .playlist:hover::before, .playlist:hover::after{
@@ -174,10 +189,10 @@ body{
 
 .modal-background{
     position: absolute;
-    top: 0;
+    top: 64px;
     right: 0;
     left: 0;
-    bottom: 0;
+    bottom: 128px;
     background-color: rgba(24, 24, 24, 0.61);
     display: none;
 }
@@ -210,7 +225,9 @@ body{
 }
 
 .modal__close{
-    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
 }
 
 .modal__title{
@@ -220,6 +237,8 @@ body{
 /* player */
 
 .player{
+    position: fixed;
+    bottom: 64px;
     width: 100%;
     height: 64px;
     background: #181818;
@@ -271,6 +290,10 @@ body{
     align-items: center;
 }
 
+.player__skip{
+    cursor: pointer;
+}
+
 .player__indicator-info{
     display: flex;
     align-items: center;
@@ -291,7 +314,7 @@ body{
 .player__indicator-wrap, .volume__indicator-wrap{
     position: relative;
     width: 100%;
-    height: 4px;
+    height: 5px;
     background-color: rgba(255, 255, 255, 0.55);
     margin: 0 8px;
     border-radius: 4px;
@@ -303,27 +326,25 @@ body{
     position: absolute;
     top: 0;
     left: 0;
-    height: 4px;
-    width: 55%;
+    height: 5px;
+    width: 0%;
     border-radius: 4px;
     background-color: #00d95f;
 }
 
-.fa-solid{
-    cursor: pointer;
+.volume__indicator{
+    width: 100%;
 }
 
 .play, .pause{
-    margin: 0 12px;
-    font-size: 24px;
+    width: 32px;
+    height: 32px;
+    margin: 0 8px;
+    cursor: pointer;
     display: none !important;
 }
 
-.play_active{
-    display: block !important;
-}
-
-.pause_active{
+.play_active, .pause_active{
     display: block !important;
 }
 
@@ -333,11 +354,23 @@ body{
     padding: 0 32px;
 }
 
+.volume-off, .volume-on{
+    min-width: 25px;
+    cursor: pointer;
+    display: none !important;
+}
+
+.volume-off_active, .volume-on_active{
+    display: block !important;
+}
+
 /* footer */
 
 .footer{
     width: 100%;
     background: #181818;
+    position: fixed;
+    bottom: 0;
     height: 64px;
     box-shadow: 0px 0px 18px -9px #181818;
     z-index: 1;
