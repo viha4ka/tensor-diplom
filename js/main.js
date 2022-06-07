@@ -9,6 +9,7 @@ const audio = document.querySelector(".audio")
 const playerStartTime = document.querySelector(".player__start-time")
 const playerEndTime = document.querySelector(".player__end-time")
 const playerIndicator = document.querySelector(".player__indicator")
+const playerIndicatorWrap = document.querySelector(".player__indicator-wrap")
 
 const btnPlay = document.querySelector(".play")
 const btnPause = document.querySelector(".pause")
@@ -59,3 +60,9 @@ function updateProgress(e){
 }
 
 audio.addEventListener("timeupdate", updateProgress)
+
+function setProgress(e) {
+    const width = this.clientWidth
+}
+
+playerIndicatorWrap.addEventListener("click", setProgress)
