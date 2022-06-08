@@ -103,14 +103,20 @@ function switchAudio(id){
 }
 
 function playAudio() {
+    const currentId = +localStorage.getItem("currentTrack")
     btnPlay.classList.remove("play_active")
     btnPause.classList.add("pause_active")
+    document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
     audio.play()
 }
 
 function pauseAudio() {
     btnPlay.classList.add("play_active")
     btnPause.classList.remove("pause_active")
+    const elements = document.querySelectorAll(".playlist__play")
+    elements.forEach(element => {
+        element.src = "./images/svg/Play.svg"
+    })
     audio.pause()
 }
 
