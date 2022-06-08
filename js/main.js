@@ -12,8 +12,6 @@ const playerStartTime = document.querySelector(".player__start-time")
 const playerEndTime = document.querySelector(".player__end-time")
 const playerIndicator = document.querySelector(".player__indicator")
 const playerIndicatorWrap = document.querySelector(".player__indicator-wrap")
-const playerSkipPrev = document.querySelector('.player__skip_prev')
-const playerSkipNext = document.querySelector('.player__skip_next')
 
 const volumeIndicatorWrap = document.querySelector(".volume__indicator-wrap")
 const volumeIndicator = document.querySelector(".volume__indicator")
@@ -39,14 +37,36 @@ document.body.addEventListener("click", function (event){
         modalPlayList.classList.toggle("modal-background_active")
     };
     if(event.target && event.target.classList == "playlist__play"){
-        switchAudio(event.target.id)
+        if(document.getElementById(`${event.target.id}`).src.split("/").at(-1) === "Pause.svg"){
+            document.getElementById(`${event.target.id}`).src = './images/svg/Play.svg'
+            pauseAudio()
+        }else{
+            const elements = document.querySelectorAll(".playlist__play")
+            elements.forEach(element => {
+                element.src = "./images/svg/Play.svg"
+            })
+            document.getElementById(`${event.target.id}`).src = './images/svg/Pause.svg'
+            switchAudio(event.target.id)
+        }
     }
     if(event.target && event.target.classList == "player__skip player__skip_prev"){
-        let currentId = +localStorage.getItem("currentTrack") - 1 < 1 ? myTracks.length : +localStorage.getItem("currentTrack") - 1
+        const prevId = +localStorage.getItem("currentTrack")
+        let currentId = prevId - 1 < 1 ? myTracks.length : prevId - 1
+        const elements = document.querySelectorAll(".playlist__play")
+        elements.forEach(element => {
+            element.src = "./images/svg/Play.svg"
+        })
+        document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
         switchAudio(currentId)
     }
     if(event.target && event.target.classList == "player__skip player__skip_next"){
-        let currentId = +localStorage.getItem("currentTrack") + 1 > myTracks.length ? 1 : +localStorage.getItem("currentTrack") + 1
+        const prevId = +localStorage.getItem("currentTrack")
+        let currentId = prevId + 1 > myTracks.length ? 1 : prevId + 1
+        const elements = document.querySelectorAll(".playlist__play")
+        elements.forEach(element => {
+            element.src = "./images/svg/Play.svg"
+        })
+        document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
         switchAudio(currentId)
     }
 })
