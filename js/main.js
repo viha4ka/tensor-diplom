@@ -1,3 +1,5 @@
+import {drawCardsMyTracks} from "./drawCard.js";
+
 const btnOpenPlaylist = document.querySelector(".btn-create-playlist")
 const modalPlayList = document.querySelector(".modal-background_playlist")
 const modalCreatePlayList = document.querySelector(".modal-background_create-playlist")
@@ -10,23 +12,47 @@ const playerStartTime = document.querySelector(".player__start-time")
 const playerEndTime = document.querySelector(".player__end-time")
 const playerIndicator = document.querySelector(".player__indicator")
 const playerIndicatorWrap = document.querySelector(".player__indicator-wrap")
+const playerSkipPrev = document.querySelector('.player__skip_prev')
+const playerSkipNext = document.querySelector('.player__skip_next')
 
 const volumeIndicatorWrap = document.querySelector(".volume__indicator-wrap")
 const volumeIndicator = document.querySelector(".volume__indicator")
 
 const btnPlay = document.querySelector(".play")
 const btnPause = document.querySelector(".pause")
-console.log(btnPlay)
 const btnVolumeOff = document.querySelector(".volume-off")
 const btnVolumeOn = document.querySelector(".volume-on")
 
+const myTracks = [
+    {name: "Razlom", author: "Schurik", img: "./images/album.jpg", id: 1, audio: "./audio/1.mp3"},
+    {name: "Войтенко - motivation", author: "Войтенко Игорь", img: "./images/album3.jpg", id: 2, audio: "./audio/2.mp3"},
+    {name: "Sluschat Vsem", author: "Schurik", img: "./images/album2.jpg", id: 3, audio: "./audio/3.mp3"},
+]
+
+window.onload = function (){
+    drawCardsMyTracks("track", myTracks)
+    switchWithoutPlayAudio(1)
+}
+
+document.body.addEventListener("click", function (event){
+    if( event.target && event.target.classList == "playlist") {
+        modalPlayList.classList.toggle("modal-background_active")
+    };
+    if(event.target && event.target.classList == "playlist__play"){
+        switchAudio(event.target.id)
+    }
+    if(event.target && event.target.classList == "player__skip player__skip_prev"){
+        let currentId = +localStorage.getItem("currentTrack") - 1 < 1 ? myTracks.length : +localStorage.getItem("currentTrack") - 1
+        switchAudio(currentId)
+    }
+    if(event.target && event.target.classList == "player__skip player__skip_next"){
+        let currentId = +localStorage.getItem("currentTrack") + 1 > myTracks.length ? 1 : +localStorage.getItem("currentTrack") + 1
+        switchAudio(currentId)
+    }
+})
 
 btnOpenPlaylist.addEventListener("click", ()=>{
     modalCreatePlayList.classList.toggle("modal-background_active")
-})
-
-playlist.addEventListener("click", ()=>{
-    modalPlayList.classList.toggle("modal-background_active")
 })
 
 btnModalPlayListClose.addEventListener("click", ()=>{
@@ -37,32 +63,53 @@ btnModalCreatePlayListClose.addEventListener("click", ()=>{
     modalCreatePlayList.classList.remove("modal-background_active")
 })
 
+function switchWithoutPlayAudio(id){
+    localStorage.setItem("currentTrack", id)
+    const track = myTracks.at(id - 1 )
+    audio.src = track.audio
+    document.querySelector(".track__img").src = track.img
+    document.querySelector(".track-info__name").innerHTML = track.name
+    document.querySelector(".track-info__author").innerHTML = track.author
+}
+
+function switchAudio(id){
+    localStorage.setItem("currentTrack", id)
+    const track = myTracks.at(id - 1 )
+    audio.src = track.audio
+    document.querySelector(".track__img").src = track.img
+    document.querySelector(".track-info__name").innerHTML = track.name
+    document.querySelector(".track-info__author").innerHTML = track.author
+    playAudio()
+}
+
 function playAudio() {
+    btnPlay.classList.remove("play_active")
+    btnPause.classList.add("pause_active")
     audio.play()
 }
 
 function pauseAudio() {
+    btnPlay.classList.add("play_active")
+    btnPause.classList.remove("pause_active")
     audio.pause()
 }
 
 btnPlay.addEventListener("click", () => {
-    btnPlay.classList.toggle("play_active")
-    btnPause.classList.toggle("pause_active")
     playAudio()
 })
 
 btnPause.addEventListener("click", () => {
-    btnPlay.classList.toggle("play_active")
-    btnPause.classList.toggle("pause_active")
     pauseAudio()
 })
 
 function updateProgress(e){
     const {duration, currentTime} = e.srcElement
-    const progressPercent = (currentTime / duration) * 100
-    playerIndicator.style.width = `${progressPercent}%`
-    playerEndTime.innerHTML = `${Math.floor(duration/60)}:${duration%60 > 10 ? Math.floor(duration%60) : `0${Math.floor(duration%60)}`}`
-    playerStartTime.innerHTML = `${Math.floor(currentTime/60)}:${currentTime%60 > 10 ? Math.floor(currentTime%60) : `0${Math.floor(currentTime%60)}`}`
+    if(!isNaN(duration)){
+        const progressPercent = (currentTime / duration) * 100
+        playerIndicator.style.width = `${progressPercent}%`
+        playerEndTime.innerHTML = `${Math.floor(duration/60)}:${duration%60 > 10 ? Math.floor(duration%60) : `0${Math.floor(duration%60)}`}`
+        playerStartTime.innerHTML = `${Math.floor(currentTime/60)}:${currentTime%60 > 10 ? Math.floor(currentTime%60) : `0${Math.floor(currentTime%60)}`}`
+    }
 }
 
 audio.addEventListener("timeupdate", updateProgress)

@@ -24,21 +24,17 @@
     <main class="main">
         <div class="container container_main">
             <div class="playlists">
-                <div class="playlist-wrap">
+                <!--<div class="playlist-wrap">
                     <div class="playlist">
                         <div class="playlist-front">
                             <img src="./images/album.jpg" alt="album" class="playlist__img">
-                            <span class="playlist__title">Альбом</span>
+                            <span class="playlist__title">Razlom</span>
                         </div>
                         <div class="playlist-back">
-                            <span>Песня 1</span>
-                            <span>Песня 2</span>
-                            <span>Песня 3</span>
-                            <span>Песня 4</span>
-                            <span class="playlist__title">Альбом</span>
+                            <img src="./images/svg/Play.svg" alt="play" class="playlist__play">
                         </div>
                     </div>
-                </div>
+                </div>-->
             </div>
         </div>
     </main>
@@ -54,10 +50,10 @@
             <audio class="audio" src="./audio/1.mp3"></audio>
             <div class="player__main">
                 <div class="player__btns">
-                    <img src="./images/svg/Skip-prev.svg" alt="prev" class="player__skip">
+                    <img src="./images/svg/Skip-prev.svg" alt="prev" class="player__skip player__skip_prev">
                     <img src="./images/svg/Play.svg" alt="play" class="play play_active">
                     <img src="./images/svg/Pause.svg" alt="pause" class="pause">
-                    <img src="./images/svg/Skip-next.svg" alt="next" class="player__skip">
+                    <img src="./images/svg/Skip-next.svg" alt="next" class="player__skip player__skip_next">
                 </div>
                 <div class="player__indicator-info">
                     <span class="player__start-time">0:00</span>
@@ -101,7 +97,7 @@
             </div>
         </div>
     </div>
-    <script src="./js/main.js"></script>
+    <script type="module" src="./js/main.js"></script>
     <script type="module" src="./js/api.js"></script>
     <script type="module" src="./js/drawCard.js"></script>
 </body>

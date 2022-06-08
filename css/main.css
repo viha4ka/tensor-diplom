@@ -126,6 +126,10 @@ body{
     opacity: 1;
 }
 
+.playlist__img{
+    width: 100%;
+    height: 240px;
+}
 
 .playlist-front, .playlist-back{
     width: 100%;
@@ -149,9 +153,16 @@ body{
     right: 0;
     opacity: 0;
     display: flex;
+    justify-content: center;
+    align-items: center;
     flex-flow: column nowrap;
     padding: 16px;
-    background-color: #181818;
+}
+
+.playlist__play{
+    width: 96px;
+    height: 96px;
+    cursor: pointer;
 }
 
 .playlist:hover::before, .playlist:hover::after{

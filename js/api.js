@@ -1,4 +1,4 @@
-import {drawCardsAlbum} from './drawCard.js'
+import {drawCardsTraks,drawCardsArtist} from'./drawCard.js'
 
 Storage.prototype.setObject = function(key, value){
 	this.setItem(key, JSON.stringify(value))
@@ -12,7 +12,6 @@ Storage.prototype.getObject = function(key){
 
 
 function defaultRequest (method, name, params = undefined) {
-    let o = 'l'
     let xhr = new XMLHttpRequest()
     let url = new URL('http://ws.audioscrobbler.com/2.0')
     url.searchParams.set('method', name)
@@ -41,13 +40,14 @@ function defaultRequest (method, name, params = undefined) {
     }
 }
 
-window.onload = function () {
+/*window.onload = function () {
     ChartApi.getTopArtists()
     ChartApi.getTopTracks()
     ArtistApi.getTopAlbums('cher')
     ArtistApi.getTopTracks('cher')
-    drawCardsAlbum('artist', localStorage.getObject('artist.gettopalbums'))
-}
+    // drawCardsTraks('track', localStorage.getObject('chart.gettoptracks'))
+    drawCardsArtist('artists', localStorage.getObject('chart.gettopartists'))
+}*/
 
 const ChartApi = {
     getTopTracks () {
