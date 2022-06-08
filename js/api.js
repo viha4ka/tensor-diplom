@@ -49,7 +49,7 @@ function defaultRequest (method, name, params = undefined) {
     drawCardsArtist('artists', localStorage.getObject('chart.gettopartists'))
 }*/
 
-const ChartApi = {
+export const ChartApi = {
     getTopTracks () {
         return defaultRequest('GET','chart.gettoptracks')
     },

@@ -1,34 +1,3 @@
-export function drawCardsAlbum (name, data) {
-    const selector = ['div', ]
-    for (let i = 0; i < data.data.topalbums.album.length; i++) {
-        const element = data.data.topalbums.album[i];
-        let div = document.createElement('div');
-        let img = document.createElement('img');
-        let spanByFront = document.createElement('span');
-        let divPlaylist = document.createElement('div');
-        let divPlaylistFront = document.createElement('div');
-        let divPlaylistBack = document.createElement('div');
-        let container_player = document.querySelector('.playlists')
-        div.appendChild(divPlaylist)
-        divPlaylist.appendChild(divPlaylistFront)
-        divPlaylist.appendChild(divPlaylistBack)
-        divPlaylistFront.appendChild(img)
-        divPlaylistFront.appendChild(spanByFront)
-        img.src =element.image[2]['#text']
-        spanByFront.innerText = `Aльбом: ${element.name}`
-        div.setAttribute('class', 'playlist-wrap')
-        spanByFront.setAttribute('class', 'playlist__title')
-        img.setAttribute('class', 'playlist__img')
-        divPlaylist.setAttribute('class', 'playlist')
-        divPlaylistFront.setAttribute('class', 'playlist-front')
-        divPlaylistBack.setAttribute('class', 'playlist-back')
-        div.setAttribute(`data-artist`, element.artist.name)
-        div.setAttribute(`data-count`, element.playcount)
-        container_player.appendChild(div)
-    }
-    
-}
-
 export function drawCardsTraks (name, data) {
     for (let i = 0; i < data.data.tracks.track.length; i++) {
         const element = data.data.tracks.track[i];
@@ -39,16 +8,22 @@ export function drawCardsTraks (name, data) {
         let divPlaylistFront = document.createElement('div');
         let divPlaylistBack = document.createElement('div');
         let container_player = document.querySelector('.playlists')
+        let link = document.createElement('a')
         div.appendChild(divPlaylist)
         divPlaylist.appendChild(divPlaylistFront)
         divPlaylist.appendChild(divPlaylistBack)
         divPlaylistFront.appendChild(img)
         divPlaylistFront.appendChild(spanByFront)
+        divPlaylistBack.appendChild(link)
         img.src =element.image[2]['#text']
+        link.href = element.url
+        link.target = "_blank"
+        link.innerText= "Перейти к треку"
         spanByFront.innerText = `Трек: ${element.name}`
         div.setAttribute('class', 'playlist-wrap')
         spanByFront.setAttribute('class', 'playlist__title')
         img.setAttribute('class', 'playlist__img')
+        link.setAttribute("class", 'playlist-back__link')
         divPlaylist.setAttribute('class', 'playlist')
         divPlaylistFront.setAttribute('class', 'playlist-front')
         divPlaylistBack.setAttribute('class', 'playlist-back')
@@ -104,16 +79,22 @@ export function drawCardsArtist (name, data) {
         let divPlaylistFront = document.createElement('div');
         let divPlaylistBack = document.createElement('div');
         let container_player = document.querySelector('.playlists')
+        let link = document.createElement('a')
         div.appendChild(divPlaylist)
         divPlaylist.appendChild(divPlaylistFront)
         divPlaylist.appendChild(divPlaylistBack)
         divPlaylistFront.appendChild(img)
         divPlaylistFront.appendChild(spanByFront)
+        divPlaylistBack.appendChild(link)
         img.src =element.image[2]['#text']
+        link.href = element.url
+        link.target = "_blank"
+        link.innerText= "Перейти к исполнителю"
         spanByFront.innerText = `Испольнитель: ${element.name}`
         div.setAttribute('class', 'playlist-wrap')
         spanByFront.setAttribute('class', 'playlist__title')
         img.setAttribute('class', 'playlist__img')
+        link.setAttribute("class", 'playlist-back__link')
         divPlaylist.setAttribute('class', 'playlist')
         divPlaylistFront.setAttribute('class', 'playlist-front')
         divPlaylistBack.setAttribute('class', 'playlist-back')

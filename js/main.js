@@ -1,11 +1,5 @@
-import {drawCardsMyTracks} from "./drawCard.js";
-
-const btnOpenPlaylist = document.querySelector(".btn-create-playlist")
-const modalPlayList = document.querySelector(".modal-background_playlist")
-const modalCreatePlayList = document.querySelector(".modal-background_create-playlist")
-const btnModalPlayListClose = document.querySelector(".modal-background_playlist .modal__close")
-const btnModalCreatePlayListClose = document.querySelector(".modal-background_create-playlist .modal__close")
-const playlist = document.querySelector(".playlist")
+import {drawCardsArtist, drawCardsMyTracks, drawCardsTraks} from "./drawCard.js";
+import {ChartApi} from "./api.js";
 
 const audio = document.querySelector(".audio")
 const playerStartTime = document.querySelector(".player__start-time")
@@ -22,10 +16,14 @@ const btnVolumeOff = document.querySelector(".volume-off")
 const btnVolumeOn = document.querySelector(".volume-on")
 
 const myTracks = [
-    {name: "Razlom", author: "Schurik", img: "./images/album.jpg", id: 1, audio: "./audio/1.mp3"},
-    {name: "Войтенко - motivation", author: "Войтенко Игорь", img: "./images/album3.jpg", id: 2, audio: "./audio/2.mp3"},
-    {name: "Sluschat Vsem", author: "Schurik", img: "./images/album2.jpg", id: 3, audio: "./audio/3.mp3"},
+    {name: "СМУЗИ", author: "The Limba", img: "https://cdnlv.redkassa.ru/live/sitenew/picture/536acba1-e88b-4d1d-b2f9-9a3d1d77fd92", id: 1, audio: "https://cdndl.zaycev.net/track/17688891/b2bwM5ULFXBZhcNnt4mqp4k4gQiaWLeCjnEFKqfNPiM4yPqh28EAb6Mfo3FkHNzPYZgypKoYxVLnjNf4Xoq97nL6ARqm44VUHuFbMvSe54FLcCENQbFwbYtnfywhDnUXzYyp98ysAi4fvazJgKHjK8dETEHtj5erMndYpJNS82nMTQvPcLtum34yqCqGHobbyH9ps3Hf7EwuYp4i1u4BfpSLx9fVDHz7dULbdVzhcyzQRBBunk3fd9BP5ENAa5VPWVJ5qDvvngpGNdYLLsqtQgXGLwGARAvf3Avh76BWKdPFsgnqzayd3bd2mWbEtSwSZizgaz6mv8S9kLQLXj5zZuFmYfBVXu8yz8kHdp25ZZDAbVVb6nB"},
+    {name: "МАЛИНОВАЯ ЛАДА", author: "Gayazov$ Brother$", img: "https://i1.sndcdn.com/artworks-TYchmIZvhtB3VOys-eTEhUw-t500x500.png", id: 2, audio: "https://dl2.mp3party.net/online/10202560.mp3"},
+    {name: "Baby mama", author: "Скриптонит, Райда", img: "https://cdn.promodj.com/afs/087fbeb0b8233b7d82753860bb2846da12%3Aresize%3A2000x2000%3Asame%3Ad3b874", id: 3, audio: "https://dl2.mp3party.net/online/9339955.mp3"},
 ]
+
+const btnNavToMyTracks = document.querySelector(".btn-nav_cart")
+const btnNavToArtists = document.querySelector(".btn-nav_artists")
+const btnNavToTopCart = document.querySelector(".btn-nav_my-tracks")
 
 window.onload = function (){
     drawCardsMyTracks("track", myTracks)
@@ -41,47 +39,71 @@ document.body.addEventListener("click", function (event){
             document.getElementById(`${event.target.id}`).src = './images/svg/Play.svg'
             pauseAudio()
         }else{
-            const elements = document.querySelectorAll(".playlist__play")
-            elements.forEach(element => {
-                element.src = "./images/svg/Play.svg"
-            })
-            document.getElementById(`${event.target.id}`).src = './images/svg/Pause.svg'
+            updateIconInTrack(event.target.id)
             switchAudio(event.target.id)
         }
     }
     if(event.target && event.target.classList == "player__skip player__skip_prev"){
         const prevId = +localStorage.getItem("currentTrack")
         let currentId = prevId - 1 < 1 ? myTracks.length : prevId - 1
-        const elements = document.querySelectorAll(".playlist__play")
-        elements.forEach(element => {
-            element.src = "./images/svg/Play.svg"
-        })
-        document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
+        updateIconInTrack(currentId)
         switchAudio(currentId)
     }
     if(event.target && event.target.classList == "player__skip player__skip_next"){
         const prevId = +localStorage.getItem("currentTrack")
         let currentId = prevId + 1 > myTracks.length ? 1 : prevId + 1
-        const elements = document.querySelectorAll(".playlist__play")
-        elements.forEach(element => {
-            element.src = "./images/svg/Play.svg"
-        })
-        document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
+        updateIconInTrack(currentId)
         switchAudio(currentId)
+    }
+    if(event.target && event.target.classList == "btn-nav btn-nav_my-tracks"){
+        showPlayer()
+        removeCards()
+        drawCardsMyTracks("track", myTracks)
+    }
+    if(event.target && event.target.classList == "btn-nav btn-nav_artists"){
+        hiddenPlayer()
+        removeCards()
+        ChartApi.getTopArtists()
+        drawCardsArtist('artists', localStorage.getObject('chart.gettopartists'))
+        //drawCardsMyTracks("track", myTracks)
+    }
+    if(event.target && event.target.classList == "btn-nav btn-nav_cart"){
+        hiddenPlayer()
+        removeCards()
+        ChartApi.getTopTracks()
+        drawCardsTraks('track', localStorage.getObject('chart.gettoptracks'))
     }
 })
 
-btnOpenPlaylist.addEventListener("click", ()=>{
-    modalCreatePlayList.classList.toggle("modal-background_active")
-})
+function showPlayer(){
+    document.querySelector(".player").style.display = "block"
+    document.querySelector(".main").style.margin = "64px 0 128px 0px"
+}
 
-btnModalPlayListClose.addEventListener("click", ()=>{
-    modalPlayList.classList.remove("modal-background_active");
-})
+function hiddenPlayer(){
+    pauseAudio()
+    document.querySelector(".player").style.display = "none"
+    document.querySelector(".main").style.margin = "64px 0 64px 0px"
+}
 
-btnModalCreatePlayListClose.addEventListener("click", ()=>{
-    modalCreatePlayList.classList.remove("modal-background_active")
-})
+function removeCards(){
+    const cards = document.querySelectorAll(".playlist-wrap")
+    cards.forEach(card => {
+        card.remove()
+    })
+}
+
+function setInTracksPlayIcon(){
+    const elements = document.querySelectorAll(".playlist__play")
+    elements.forEach(element => {
+        element.src = "./images/svg/Play.svg"
+    })
+}
+
+function updateIconInTrack(currentId){
+    setInTracksPlayIcon()
+    document.getElementById(`${currentId}`).src = './images/svg/Pause.svg'
+}
 
 function switchWithoutPlayAudio(id){
     localStorage.setItem("currentTrack", id)
@@ -93,12 +115,7 @@ function switchWithoutPlayAudio(id){
 }
 
 function switchAudio(id){
-    localStorage.setItem("currentTrack", id)
-    const track = myTracks.at(id - 1 )
-    audio.src = track.audio
-    document.querySelector(".track__img").src = track.img
-    document.querySelector(".track-info__name").innerHTML = track.name
-    document.querySelector(".track-info__author").innerHTML = track.author
+    switchWithoutPlayAudio(id)
     playAudio()
 }
 
@@ -113,10 +130,7 @@ function playAudio() {
 function pauseAudio() {
     btnPlay.classList.add("play_active")
     btnPause.classList.remove("pause_active")
-    const elements = document.querySelectorAll(".playlist__play")
-    elements.forEach(element => {
-        element.src = "./images/svg/Play.svg"
-    })
+    setInTracksPlayIcon()
     audio.pause()
 }
 
